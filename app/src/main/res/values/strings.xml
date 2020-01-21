@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">FullProject</string>
+    <string name="no_desc">No Description Available Yet</string>
+    <string name="book_decription">Book Decription</string>
+    <string name="title">Title</string>
+    <string name="authors">Authors</string>
+    <string name="subtitle">SubTitle</string>
+</resources>
