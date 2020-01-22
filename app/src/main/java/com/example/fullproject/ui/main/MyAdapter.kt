@@ -1,26 +1,29 @@
 package com.example.fullproject.ui.main
 
+import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.fullproject.BR
 import com.example.fullproject.R
+import com.example.fullproject.databinding.ListQuickBinding
 import com.example.fullproject.repository.VolumeInfo
-import kotlinx.android.synthetic.main.list_quick.view.*
 
-class MyAdapter(private val list: List<VolumeInfo>) :
+class MyAdapter(val context: Context, private val list: MutableList<VolumeInfo>) :
     RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
     /**
      * View holder class
      */
-    inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var title = view.txt_title
-        var sub_title = view.txt_subtitle
-        var authors = view.txt_authors
+    inner class MyViewHolder(val binding: ListQuickBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
+        fun bind(data: VolumeInfo) {
+            binding.setVariable(BR.listmodel, data)
+            binding.executePendingBindings()
+        }
 
     }
 
@@ -28,13 +31,8 @@ class MyAdapter(private val list: List<VolumeInfo>) :
         val c = list[position]
 
         holder.apply {
-            title.text = c.title
-            sub_title.text = c.subtitle
+            holder.bind(list.get(position))
 
-            c.authors?.let {
-                holder.authors.append(it.joinToString())
-
-            }
 
             itemView.setOnClickListener {
                 val context = itemView.context
@@ -52,10 +50,12 @@ class MyAdapter(private val list: List<VolumeInfo>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
-        val v = LayoutInflater.from(parent.context)
-            .inflate(R.layout.list_quick, parent, false)
 
-        return MyViewHolder(v)
+        val binding: ListQuickBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(context)
+            , R.layout.list_quick, parent, false
+        )
+        return MyViewHolder(binding)
     }
 
 }

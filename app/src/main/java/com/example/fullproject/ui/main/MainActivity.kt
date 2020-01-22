@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fullproject.R
+import com.example.fullproject.repository.VolumeInfo
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         viewmodel = ViewModelProviders.of(this).get(PostViewModel::class.java)
         viewmodel.getPost()
         viewmodel.mutableList.observe(this, Observer {
-            val mAdapter = MyAdapter(it.orEmpty())
+            val mAdapter = MyAdapter(this, it as MutableList<VolumeInfo>)
             my_recycler_view?.adapter = mAdapter
         })
 

@@ -1,5 +1,11 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="listmodel"
+            type="com.example.fullproject.repository.VolumeInfo" />
+    </data>
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -12,6 +18,7 @@
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
         android:textColor="@color/colorAccent"
+        android:text="@{listmodel.title}"
         android:textSize="16sp"
         tools:text="hii" />
 
@@ -24,6 +31,7 @@
         android:gravity="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16sp"
+        android:text="@{listmodel.subtitle}"
         tools:text="hiiiiiii" />
 
 
@@ -35,8 +43,8 @@
         android:layout_weight="1"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        android:text=""
+        android:text="@{listmodel.authors.toString()}"
         android:textSize="16sp" />
 
 
-</LinearLayout>
+</LinearLayout></layout>
