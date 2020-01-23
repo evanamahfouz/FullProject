@@ -11,14 +11,20 @@ import com.example.fullproject.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var adapter: MyAdapter
-    lateinit var binding: ActivityMainBinding
+    private lateinit var adapter: MyAdapter
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_main)
-        binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         val viewModel: PostViewModel = ViewModelProviders.of(this).get(PostViewModel::class.java)
+
+        binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+            .apply {
+
+                lifecycleOwner = this@MainActivity
+                errorMessage = viewModel
+            }
+
         // in content do not change the layout size of the RecyclerView
         adapter = MyAdapter(this)
 
@@ -31,5 +37,6 @@ class MainActivity : AppCompatActivity() {
             adapter.list = it
             binding.myRecyclerView.adapter = adapter
         })
+
     }
 }
