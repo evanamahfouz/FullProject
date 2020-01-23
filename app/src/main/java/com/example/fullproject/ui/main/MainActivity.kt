@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.mutableList.observe(this, Observer {
             adapter.list = it
-            binding.myRecyclerView?.adapter = adapter
+            binding.myRecyclerView.adapter = adapter
         })
     }
 }
