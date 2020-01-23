@@ -1,6 +1,6 @@
-package com.example.fullproject.data
+package com.example.fullproject.data.network
 
-import com.example.fullproject.repository.BookObject
+import com.example.fullproject.data.model.BookObject
 import retrofit2.Call
 import retrofit2.http.GET
 

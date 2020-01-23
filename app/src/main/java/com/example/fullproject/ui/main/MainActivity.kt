@@ -1,33 +1,35 @@
 package com.example.fullproject.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fullproject.R
-import com.example.fullproject.repository.VolumeInfo
-import kotlinx.android.synthetic.main.activity_main.*
+import com.example.fullproject.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var adapter: MyAdapter
+    lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val viewmodel: PostViewModel
+        //setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        val viewModel: PostViewModel = ViewModelProviders.of(this).get(PostViewModel::class.java)
         // in content do not change the layout size of the RecyclerView
-        my_recycler_view?.setHasFixedSize(true)
+        adapter = MyAdapter(this)
 
-        // use a linear layout manager
-        my_recycler_view?.layoutManager = LinearLayoutManager(this)
-        viewmodel = ViewModelProviders.of(this).get(PostViewModel::class.java)
-        viewmodel.getPost()
-        viewmodel.mutableList.observe(this, Observer {
-            val mAdapter = MyAdapter(this, it as MutableList<VolumeInfo>)
-            my_recycler_view?.adapter = mAdapter
+        with(binding.myRecyclerView) {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(this@MainActivity)
+        }
+
+        viewModel.mutableList.observe(this, Observer {
+            adapter.list = it
+            binding.myRecyclerView?.adapter = adapter
         })
-
-
     }
 }

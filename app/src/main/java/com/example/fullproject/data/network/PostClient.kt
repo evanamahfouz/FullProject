@@ -1,6 +1,6 @@
-package com.example.fullproject.data
+package com.example.fullproject.data.network
 
-import com.example.fullproject.repository.BookObject
+import com.example.fullproject.data.model.BookObject
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class PostClient {
 
     companion object {
-        var bookIntefracre:BookAPI?= null
+        var bookIntefracre: BookAPI?= null
         val BaseUrl = "https://www.googleapis.com/"
         val Instant by lazy {
             PostClient()
@@ -20,7 +20,7 @@ class PostClient {
             GsonConverterFactory.create()
         )
             .build()
-       bookIntefracre=retrofit.create(BookAPI::class.java)
+       bookIntefracre =retrofit.create(BookAPI::class.java)
    }
     internal fun getCallBookObject(): Call<BookObject>? {
         return bookIntefracre?.getBook()

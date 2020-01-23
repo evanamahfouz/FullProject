@@ -1,4 +1,4 @@
-package com.example.fullproject.repository
+package com.example.fullproject.data.model
 
 data class BookObject(
     val kind: String? = null,
