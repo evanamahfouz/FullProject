@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.example.fullproject.R
+import com.example.fullproject.data.db.DataBase
 import com.example.fullproject.databinding.ActivityBookDecripBinding
 import kotlinx.android.synthetic.main.activity_book_decrip.*
 
@@ -28,5 +29,6 @@ class BookDescriptionActivity : AppCompatActivity() {
 
     companion object {
         const val ARG_DESC = "Description"
+
     }
 }

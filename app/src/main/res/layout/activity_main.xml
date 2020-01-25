@@ -64,7 +64,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center_vertical"
-            android:text="@{errorMessage.mutableError}"
             tools:text="" />
     </LinearLayout>
 </layout>

@@ -15,7 +15,6 @@ class MyAdapter(private val context: Context) :
     RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
     var list: List<VolumeInfo> = emptyList()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding: ListQuickBinding = DataBindingUtil.inflate(
             LayoutInflater.from(context)
