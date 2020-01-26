@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -16,6 +17,7 @@ import com.example.fullproject.data.db.DataBase
 import com.example.fullproject.data.db.VolumInfoEntity
 import com.example.fullproject.data.model.VolumeInfo
 import com.example.fullproject.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -52,6 +54,8 @@ class MainActivity : AppCompatActivity() {
             listDb = it
             dB = db
             adapter.list = it
+            prog.visibility = View.GONE
+
             binding.myRecyclerView.adapter = adapter
 
 
@@ -69,6 +73,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "From DataBase", Toast.LENGTH_LONG).show()
                 adapter.list = change(data)
 
+                prog.visibility = View.GONE
 
                 binding.myRecyclerView.adapter = adapter
 
@@ -100,7 +105,7 @@ class MainActivity : AppCompatActivity() {
 
 
         return data.map {
-            VolumeInfo(it.title, it.subtitle, it.authors.split(','))
+            VolumeInfo(it.title, it.subtitle, it.authors.split(','), null, null, it.description)
         }
 
     }

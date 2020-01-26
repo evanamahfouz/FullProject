@@ -65,5 +65,11 @@
             android:layout_gravity="center"
             android:gravity="center_vertical"
             tools:text="" />
+        <ProgressBar
+            android:id="@+id/prog"
+            android:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
     </LinearLayout>
 </layout>
