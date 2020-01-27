@@ -6,18 +6,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.example.fullproject.R
-import com.example.fullproject.data.db.DataBase
 import com.example.fullproject.databinding.ActivityBookDecripBinding
 import kotlinx.android.synthetic.main.activity_book_decrip.*
 
 class BookDescriptionActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityBookDecripBinding
+    private lateinit var binding: ActivityBookDecripBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView<ActivityBookDecripBinding>(this, R.layout.activity_book_decrip).apply {
+        binding = DataBindingUtil.setContentView<ActivityBookDecripBinding>(
+            this,
+            R.layout.activity_book_decrip
+        ).apply {
             description = intent.getStringExtra(ARG_DESC)
         }
 

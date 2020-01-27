@@ -11,29 +11,25 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Room
 import com.example.fullproject.R
 import com.example.fullproject.data.db.DataBase
-import com.example.fullproject.data.db.VolumInfoEntity
-import com.example.fullproject.data.model.VolumeInfo
+import com.example.fullproject.data.repos.Repo
 import com.example.fullproject.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+open class MainActivity : AppCompatActivity() {
 
     private lateinit var adapter: MyAdapter
     private lateinit var binding: ActivityMainBinding
-    private lateinit var listDb: List<VolumeInfo>
     private lateinit var dB: DataBase
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         val viewModel: PostViewModel = ViewModelProviders.of(this).get(PostViewModel::class.java)
-        val db = Room.databaseBuilder(
-            applicationContext,
-            DataBase::class.java, "volumeInfo.db"
-        ).allowMainThreadQueries().build()
+        dB = DataBase.getInstance()
 
         binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
             .apply {
@@ -50,65 +46,35 @@ class MainActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@MainActivity)
         }
 
+        binding.myRecyclerView.adapter = adapter
+
         viewModel.mutableList.observe(this, Observer {
-            listDb = it
-            dB = db
-            adapter.list = it
+            Log.v("helloFromMain", it.size.toString())
+            adapter.submitList(it)
             prog.visibility = View.GONE
-
-            binding.myRecyclerView.adapter = adapter
-
-
         })
-        viewModel.mutableError.observe(this, Observer {
+
+        viewModel.mutableError.observe(this, Observer { errorLabel ->
 
             //database
-            if (it.isNotEmpty()) {
+            if (errorLabel.isNotEmpty()) {
 
-                val data = db.volumeInfoDOA().getAll()
-                Log.v(
-                    "SizeOfData22", change(data)
-                        .size.toString()
-                )
+                val data = Repo().showData()
+
+
+                Log.v("OnFailure", "Helllo From DataBaseFail")
+
                 Toast.makeText(this, "From DataBase", Toast.LENGTH_LONG).show()
-                adapter.list = change(data)
+                adapter.submitList(data.map {
+                    it.mapToVolumInfo()
+                })
 
                 prog.visibility = View.GONE
-
-                binding.myRecyclerView.adapter = adapter
-
-
             }
         })
 
     }
 
-    private fun insertDb(
-        it: List<VolumeInfo>,
-        db: DataBase
-    ) {
-        for (volume in it) {
-            db.volumeInfoDOA().insertAll(
-                VolumInfoEntity(
-                    0,
-                    volume.title.orEmpty(),
-                    volume.subtitle.orEmpty(),
-                    volume.authors.toString(),
-                    volume.description.orEmpty()
-                )
-            )
-            Toast.makeText(this, "Installed SuccessFully ", Toast.LENGTH_LONG).show()
-        }
-    }
-
-    private fun change(data: List<VolumInfoEntity>): List<VolumeInfo> {
-
-
-        return data.map {
-            VolumeInfo(it.title, it.subtitle, it.authors.split(','), null, null, it.description)
-        }
-
-    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
@@ -118,7 +84,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.install_item) {
-            insertDb(listDb, dB)
             return true
         }
         return super.onOptionsItemSelected(item)

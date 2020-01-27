@@ -14,9 +14,8 @@ import com.example.fullproject.data.model.VolumeInfo
 import com.example.fullproject.databinding.ListQuickBinding
 import com.example.fullproject.ui.description.BookDescriptionActivity
 
-class MyAdapter(private val context: Context): ListAdapter<VolumeInfo,MyAdapter.MyViewHolder>(DiffCallback()){
-
-    var list: List<VolumeInfo> = emptyList()
+class MyAdapter(private val context: Context) :
+    ListAdapter<VolumeInfo, MyAdapter.MyViewHolder>(DiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding: ListQuickBinding = DataBindingUtil.inflate(
             LayoutInflater.from(context)
@@ -25,7 +24,7 @@ class MyAdapter(private val context: Context): ListAdapter<VolumeInfo,MyAdapter.
         return MyViewHolder(binding).apply {
             itemView.setOnClickListener {
                 val context = itemView.context
-                val volumeInfo = list[adapterPosition]
+                val volumeInfo = getItem(adapterPosition)
                 val intent = Intent(context, BookDescriptionActivity::class.java)
                     .putExtra(BookDescriptionActivity.ARG_DESC, volumeInfo.description)
                 context.startActivity(intent)
@@ -34,16 +33,13 @@ class MyAdapter(private val context: Context): ListAdapter<VolumeInfo,MyAdapter.
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bind(list[position])
-    }
-
-    override fun getItemCount(): Int {
-        return list.size
+        holder.bind(getItem(position))
     }
 
     /**
      * View holder class
      */
+
     class MyViewHolder(private val binding: ListQuickBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -51,11 +47,12 @@ class MyAdapter(private val context: Context): ListAdapter<VolumeInfo,MyAdapter.
             binding.listModel = data
         }
     }
-     class DiffCallback: DiffUtil.ItemCallback<VolumeInfo>() {
+
+    class DiffCallback : DiffUtil.ItemCallback<VolumeInfo>() {
         override fun areItemsTheSame(oldItem: VolumeInfo, newItem: VolumeInfo): Boolean {
-            if (oldItem.title != newItem.title) return false
+
             // check if id is the same
-            return oldItem.title == newItem.title
+            return oldItem.title.equals(newItem.title)
         }
 
         @SuppressLint("DiffUtilEquals")

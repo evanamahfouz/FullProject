@@ -1,5 +1,7 @@
 package com.example.fullproject.data.model
 
+import com.example.fullproject.data.db.VolumeInfoEntity
+
 
 data class VolumeInfo(
     val title: String? = null,
@@ -47,7 +49,11 @@ data class VolumeInfo(
 
 
     val ratingsCount: Int? = null
-)
+) {
+    fun mapToVolumInfoEntity(): VolumeInfoEntity {
+        return VolumeInfoEntity(0,title, subtitle, authors.toString(),description)
+    }
+}
 
 
 

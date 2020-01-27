@@ -1,53 +1,37 @@
 package com.example.fullproject.ui.main
 
-import android.provider.ContactsContract
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.room.Room
-import com.example.fullproject.data.db.DataBase
-import com.example.fullproject.data.network.PostClient
-import com.example.fullproject.data.model.BookObject
 import com.example.fullproject.data.model.VolumeInfo
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.fullproject.data.repos.DataCallback
+import com.example.fullproject.data.repos.Repo
 
 class PostViewModel : ViewModel() {
 
     val mutableList = MutableLiveData<List<VolumeInfo>>()
     val mutableError = MutableLiveData<String>()
 
-
     init {
         getPost()
     }
 
     private fun getPost() {
-        PostClient.Instant.getCallBookObject()?.enqueue(object : Callback<BookObject> {
-            override fun onResponse(call: Call<BookObject>, response: Response<BookObject>) {
+        val repo = Repo()
+        repo.getVolumeList(object : DataCallback<List<VolumeInfo>> {
+            override fun onError(t: Throwable) {
+                mutableError.value = t.message
+            }
+
+            override fun onSuccess(data: List<VolumeInfo>) {
+                mutableList.value = data
                 mutableError.value = ""
-
-                showData(response)
             }
 
-            override fun onFailure(call: Call<BookObject>, t: Throwable) {
-                Log.v("helloNoResp", "No Internet Connection")
 
-                mutableError.value = "No Internet Connection"
-
-            }
         })
 
+
     }
 
-    private fun showDB() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
-    private fun showData(response: Response<BookObject>) {
-        mutableList.value = response.body()?.items?.mapNotNull {
-            it.volumeInfo
-        }
-    }
 }
