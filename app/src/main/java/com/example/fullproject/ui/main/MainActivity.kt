@@ -49,7 +49,7 @@ open class MainActivity : AppCompatActivity() {
         binding.myRecyclerView.adapter = adapter
 
         viewModel.mutableList.observe(this, Observer {
-            Log.v("helloFromMain", it.size.toString())
+            Log.v("helloFromMain", it.size.toString()+" "+it.get(0).title+it.get(1).title+it.get(2).title)
             adapter.submitList(it)
             prog.visibility = View.GONE
         })

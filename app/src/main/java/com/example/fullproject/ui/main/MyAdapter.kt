@@ -3,6 +3,7 @@ package com.example.fullproject.ui.main
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -33,6 +34,8 @@ class MyAdapter(private val context: Context) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        Log.v("inBind",getItem(position).title!!)
+
         holder.bind(getItem(position))
     }
 

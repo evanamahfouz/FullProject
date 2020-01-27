@@ -29,6 +29,7 @@ class Repo {
         if (Connect) {
             PostClient.Instant.getCallBookObject()?.enqueue(object : Callback<BookObject> {
                 override fun onResponse(call: Call<BookObject>, response: Response<BookObject>) {
+
                     val newData: List<VolumeInfo> = changeToVolum(response)!!
                     Log.v("helloNoResp", "Yes Internet Connection")
                     insertData(newData)
