@@ -48,7 +48,10 @@ open class MainActivity : AppCompatActivity() {
         binding.myRecyclerView.adapter = adapter
 
         viewModel.mutableList.observe(this, Observer {
-            Log.v("helloFromMain", it.size.toString()+" "+ it[0].title+ it[1].title+ it[2].title)
+            Log.v(
+                "helloFromMain",
+                it.size.toString() + " " + it[0].title + it[1].title + it[2].title
+            )
             adapter.submitList(it)
             prog.visibility = View.GONE
         })
@@ -59,11 +62,10 @@ open class MainActivity : AppCompatActivity() {
             if (errorLabel.isNotEmpty()) {
 
 
-
                 Log.v("OnFailure", "Something Went Wrong")
                 prog.visibility = View.GONE
 
-               Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
 
             }
         })

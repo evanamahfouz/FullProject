@@ -34,7 +34,7 @@ class MyAdapter(private val context: Context) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        Log.v("inBind",getItem(position).title!!)
+        Log.v("inBind", getItem(position).title!!)
 
         holder.bind(getItem(position))
     }
