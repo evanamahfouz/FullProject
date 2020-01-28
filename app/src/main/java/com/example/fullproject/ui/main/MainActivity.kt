@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fullproject.R
 import com.example.fullproject.data.db.DataBase
-import com.example.fullproject.data.repos.Repo
 import com.example.fullproject.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -49,7 +48,7 @@ open class MainActivity : AppCompatActivity() {
         binding.myRecyclerView.adapter = adapter
 
         viewModel.mutableList.observe(this, Observer {
-            Log.v("helloFromMain", it.size.toString()+" "+it.get(0).title+it.get(1).title+it.get(2).title)
+            Log.v("helloFromMain", it.size.toString()+" "+ it[0].title+ it[1].title+ it[2].title)
             adapter.submitList(it)
             prog.visibility = View.GONE
         })
@@ -59,17 +58,13 @@ open class MainActivity : AppCompatActivity() {
             //database
             if (errorLabel.isNotEmpty()) {
 
-                val data = Repo().showData()
 
 
-                Log.v("OnFailure", "Helllo From DataBaseFail")
-
-                Toast.makeText(this, "From DataBase", Toast.LENGTH_LONG).show()
-                adapter.submitList(data.map {
-                    it.mapToVolumInfo()
-                })
-
+                Log.v("OnFailure", "Something Went Wrong")
                 prog.visibility = View.GONE
+
+               Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_LONG).show()
+
             }
         })
 

@@ -1,6 +1,10 @@
 package com.example.fullproject.data.repos
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.util.Log
+import com.example.fullproject.App
 import com.example.fullproject.data.db.DataBase
 import com.example.fullproject.data.db.VolumeInfoEntity
 import com.example.fullproject.data.model.BookObject
@@ -19,22 +23,23 @@ class Repo {
     fun getVolumeList(callback: DataCallback<List<VolumeInfo>>) {
         //val isConnected = true
 
-        // val cm =
-        //   App.application().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        //val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
-        //val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
-        // Log.v("InsideVoulmDataBase",isConnected.toString()
-        //  )
-        val Connect = true
-        if (Connect) {
+         val cm =
+           App.application().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+        val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
+         Log.v("InsideVoulmDataBase",isConnected.toString()
+          )
+//        val Connect = true
+        if (isConnected) {
             PostClient.Instant.getCallBookObject()?.enqueue(object : Callback<BookObject> {
                 override fun onResponse(call: Call<BookObject>, response: Response<BookObject>) {
 
                     val newData: List<VolumeInfo> = changeToVolum(response)!!
-                    Log.v("helloNoResp", "Yes Internet Connection")
+                    Log.v("helloYEsResp", "Yes Internet Connection")
                     insertData(newData)
 
                     callback.onSuccess(newData)
+
 
                 }
 
